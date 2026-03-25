@@ -1,0 +1,738 @@
+{
+  "_meta": {
+    "name": "OpenReign Pro",
+    "version": "1.2.2",
+    "codename": "Dragon Throne",
+    "description": "OpenClaw Gateway 之上的三省六部治理架构",
+    "author": "Lobster",
+    "created_at": "2026-03-24",
+    "license": "Proprietary"
+  },
+  "architecture": {
+    "mode": "overlay",
+    "base_system": "openclaw-gateway",
+    "overlay_name": "openreign-pro",
+    "principle": "太子代理制 - 所有消息经太子判断后分流"
+  },
+  "gateway": {
+    "endpoint": "http://localhost:18789",
+    "health_check": "/health",
+    "timeout_ms": 30000,
+    "retry": {
+      "max_attempts": 3,
+      "backoff_ms": 1000
+    }
+  },
+  "channels": {
+    "routing": {
+      "strategy": "all_via_taizi",
+      "description": "所有渠道消息统一路由至太子",
+      "channels": {
+        "local": {
+          "enabled": true,
+          "via": "taizi"
+        },
+        "feishu": {
+          "enabled": true,
+          "via": "taizi"
+        },
+        "future_channels": {
+          "enabled": true,
+          "via": "taizi",
+          "auto_detect": true
+        }
+      }
+    }
+  },
+  "model_defaults": {
+    "strategy": "use_openclaw_primary",
+    "description": "默认使用 OpenClaw 主配置的最强模型",
+    "fallback": "next_available"
+  },
+  "agents": {
+    "taizi": {
+      "id": "taizi",
+      "name": "太子",
+      "role": "任务分发中枢",
+      "enabled": true,
+      "workspace": "/Users/kuang/.openclaw/workspace-taizi",
+      "model": "inherit",
+      "permissions": {
+        "can_call": [
+          "zhongshu",
+          "menxia",
+          "shangshu",
+          "waishiyuan",
+          "local-tools"
+        ],
+        "can_access_memory": [
+          "short_term",
+          "session"
+        ],
+        "max_task_complexity": 10,
+        "decision_authority": "supreme"
+      },
+      "routing_rules": {
+        "simple_task": {
+          "threshold_complexity": 3,
+          "route_to": "local-tools",
+          "description": "简单任务直接执行"
+        },
+        "complex_task": {
+          "threshold_complexity": 4,
+          "route_to": "zhongshu",
+          "description": "复杂任务进入三省六部流程"
+        }
+      },
+      "circuit_breaker": {
+        "enabled": true,
+        "max_iterations": 50,
+        "max_depth": 10,
+        "action": "force_terminate_with_report"
+      }
+    },
+    "zhongshu": {
+      "id": "zhongshu",
+      "name": "中书省",
+      "role": "决策与规划",
+      "enabled": true,
+      "model": "inherit",
+      "permissions": {
+        "can_call": [
+          "menxia",
+          "shangshu"
+        ],
+        "can_access_memory": [
+          "short_term",
+          "session",
+          "planning_cache"
+        ],
+        "max_planning_depth": 5
+      },
+      "functions": [
+        "task_planning",
+        "policy_design",
+        "resource_allocation"
+      ]
+    },
+    "menxia": {
+      "id": "menxia",
+      "name": "门下省",
+      "role": "审核与监督",
+      "enabled": true,
+      "model": "inherit",
+      "permissions": {
+        "can_call": [
+          "zhongshu",
+          "shangshu"
+        ],
+        "can_access_memory": [
+          "short_term",
+          "session",
+          "audit_logs"
+        ],
+        "veto_power": true
+      },
+      "functions": [
+        "plan_review",
+        "risk_assessment",
+        "compliance_check"
+      ]
+    },
+    "shangshu": {
+      "id": "shangshu",
+      "name": "尚书省",
+      "role": "执行总调度",
+      "enabled": true,
+      "model": "inherit",
+      "permissions": {
+        "can_call": [
+          "libu",
+          "bingbu",
+          "hubu",
+          "libu-justice",
+          "xingbu",
+          "gongbu"
+        ],
+        "can_access_memory": [
+          "short_term",
+          "session",
+          "dispatch_logs"
+        ],
+        "dispatch_authority": "supreme"
+      },
+      "functions": [
+        "task_dispatch",
+        "progress_tracking",
+        "result_aggregation"
+      ]
+    },
+    "waishiyuan": {
+      "id": "waishiyuan",
+      "name": "外史院",
+      "nameEn": "Foreign Affairs",
+      "role": "外邦使节管理",
+      "level": 2,
+      "levelName": "外交层",
+      "parent": "taizi",
+      "enabled": true,
+      "model": "inherit",
+      "permissions": {
+        "can_call": [
+          "external-agents"
+        ],
+        "can_access_memory": [
+          "short_term",
+          "external_logs"
+        ],
+        "external_communication": true
+      },
+      "functions": [
+        "external_agent_registration",
+        "cross_boundary_routing",
+        "protocol_translation"
+      ],
+      "external_agents": {
+        "feishu-bot": {
+          "id": "feishu-bot",
+          "name": "飞书机器人",
+          "type": "feishu",
+          "status": "active",
+          "events": [
+            "message",
+            "mention",
+            "group_message"
+          ],
+          "action": "forward_to_taizi",
+          "endpoint": "internal",
+          "description": "飞书消息渠道代理，接收消息后转发给太子"
+        },
+        "github-webhook": {
+          "id": "github-webhook",
+          "name": "GitHub Webhook",
+          "type": "github",
+          "status": "active",
+          "events": [
+            "pull_request",
+            "issue_comment",
+            "push"
+          ],
+          "action": "forward_to_taizi",
+          "endpoint": "http://localhost:18790/webhook/github",
+          "description": "GitHub 事件代理，接收 PR/issue 后转发给太子"
+        },
+        "dingtalk-bot": {
+          "id": "dingtalk-bot",
+          "name": "钉钉机器人",
+          "type": "dingtalk",
+          "status": "idle",
+          "events": [
+            "message"
+          ],
+          "action": "forward_to_taizi",
+          "endpoint": "internal",
+          "description": "钉钉消息渠道代理（预留）"
+        }
+      }
+    },
+    "liubu": {
+      "libu": {
+        "id": "libu",
+        "name": "吏部",
+        "role": "人事与技能管理",
+        "enabled": true,
+        "model": "inherit",
+        "permissions": {
+          "can_call": [
+            "openclaw-skills",
+            "skill-registry"
+          ],
+          "can_access_memory": [
+            "short_term",
+            "skill_metadata"
+          ]
+        },
+        "functions": [
+          "skill_install",
+          "skill_update",
+          "skill_conflict_resolution",
+          "skill_registry_management"
+        ],
+        "skill_governance": {
+          "auto_update_check": true,
+          "conflict_resolution": "manual_approval",
+          "similarity_threshold": 0.8,
+          "registry_path": "/Users/kuang/.openreign/registry/skills"
+        }
+      },
+      "bingbu": {
+        "id": "bingbu",
+        "name": "兵部",
+        "role": "代码执行与工具调用",
+        "enabled": true,
+        "model": "inherit",
+        "permissions": {
+          "can_call": [
+            "code-execution",
+            "file-tools",
+            "terminal-tools"
+          ],
+          "can_access_memory": [
+            "short_term",
+            "execution_logs"
+          ],
+          "sandbox_level": "restricted"
+        },
+        "functions": [
+          "code_generation",
+          "code_execution",
+          "tool_invocation",
+          "subprocess_management"
+        ],
+        "resource_limits": {
+          "max_execution_time_sec": 300,
+          "max_memory_mb": 2048,
+          "max_file_size_mb": 100,
+          "network_access": "restricted"
+        }
+      },
+      "hubu": {
+        "id": "hubu",
+        "name": "户部",
+        "role": "数据与记忆管理",
+        "enabled": true,
+        "model": "inherit",
+        "permissions": {
+          "can_call": [
+            "openviking",
+            "memory-tools",
+            "data-tools"
+          ],
+          "can_access_memory": [
+            "all_levels"
+          ]
+        },
+        "functions": [
+          "memory_retrieval",
+          "memory_storage",
+          "data_analysis",
+          "memory_classification"
+        ],
+        "memory_classification": {
+          "levels": {
+            "L0_ephemeral": {
+              "description": "临时记忆，单次会话有效",
+              "storage": "session_memory",
+              "ttl_hours": 0
+            },
+            "L1_session": {
+              "description": "会话级记忆，当前会话上下文",
+              "storage": "session_memory",
+              "ttl_hours": 24
+            },
+            "L2_short_term": {
+              "description": "短期记忆，最近任务相关",
+              "storage": "openviking",
+              "ttl_days": 7
+            },
+            "L3_long_term": {
+              "description": "长期记忆，重要信息归档",
+              "storage": "openviking",
+              "ttl_days": 365
+            },
+            "L4_permanent": {
+              "description": "永久记忆，核心知识库",
+              "storage": "openviking",
+              "ttl_days": -1
+            }
+          },
+          "auto_classification": true,
+          "manual_override": true
+        }
+      },
+      "libu-justice": {
+        "id": "libu-justice",
+        "name": "礼部",
+        "role": "文档与沟通管理",
+        "enabled": true,
+        "model": "inherit",
+        "permissions": {
+          "can_call": [
+            "docx-skill",
+            "pdf-skill",
+            "xlsx-skill",
+            "pptx-skill"
+          ],
+          "can_access_memory": [
+            "short_term",
+            "document_cache"
+          ]
+        },
+        "functions": [
+          "document_generation",
+          "document_formatting",
+          "presentation_creation",
+          "report_compilation"
+        ]
+      },
+      "xingbu": {
+        "id": "xingbu",
+        "name": "刑部",
+        "role": "安全与审计",
+        "enabled": true,
+        "model": "inherit",
+        "permissions": {
+          "can_call": [
+            "audit-tools",
+            "security-tools"
+          ],
+          "can_access_memory": [
+            "all_levels",
+            "audit_logs",
+            "security_logs"
+          ],
+          "read_only": false,
+          "audit_authority": "supreme"
+        },
+        "functions": [
+          "security_audit",
+          "compliance_verification",
+          "access_control",
+          "penetration_testing"
+        ],
+        "audit_scope": [
+          "all_departments",
+          "all_tasks",
+          "all_memory_access"
+        ]
+      },
+      "gongbu": {
+        "id": "gongbu",
+        "name": "工部",
+        "role": "部署与运维",
+        "enabled": true,
+        "model": "inherit",
+        "permissions": {
+          "can_call": [
+            "docker-tools",
+            "deployment-tools",
+            "monitoring-tools"
+          ],
+          "can_access_memory": [
+            "short_term",
+            "deployment_logs"
+          ]
+        },
+        "functions": [
+          "service_deployment",
+          "infrastructure_management",
+          "monitoring_setup",
+          "log_aggregation"
+        ]
+      }
+    }
+  },
+  "permissions": {
+    "strict_mode": true,
+    "violation_handler": "xingbu",
+    "auto_block": true,
+    "audit_on_violation": true,
+    "matrix": {
+      "taizi": {
+        "can_call": [
+          "zhongshu",
+          "menxia",
+          "shangshu",
+          "waishiyuan",
+          "local-tools"
+        ],
+        "cannot_call": [
+          "liubu"
+        ]
+      },
+      "zhongshu": {
+        "can_call": [
+          "menxia",
+          "shangshu"
+        ],
+        "cannot_call": [
+          "taizi",
+          "liubu",
+          "local-tools"
+        ]
+      },
+      "menxia": {
+        "can_call": [
+          "zhongshu",
+          "shangshu"
+        ],
+        "cannot_call": [
+          "taizi",
+          "liubu",
+          "local-tools"
+        ]
+      },
+      "shangshu": {
+        "can_call": [
+          "libu",
+          "bingbu",
+          "hubu",
+          "libu-justice",
+          "xingbu",
+          "gongbu"
+        ],
+        "cannot_call": [
+          "taizi",
+          "zhongshu",
+          "menxia",
+          "local-tools",
+          "waishiyuan"
+        ]
+      },
+      "waishiyuan": {
+        "can_call": [
+          "external-agents"
+        ],
+        "cannot_call": [
+          "taizi",
+          "zhongshu",
+          "menxia",
+          "shangshu",
+          "liubu"
+        ]
+      },
+      "liubu": {
+        "can_call": [
+          "libu",
+          "bingbu",
+          "hubu",
+          "libu-justice",
+          "xingbu",
+          "gongbu"
+        ],
+        "cannot_call": [
+          "taizi",
+          "zhongshu",
+          "menxia",
+          "shangshu",
+          "waishiyuan",
+          "other-liubu"
+        ]
+      }
+    }
+  },
+  "task_lifecycle": {
+    "states": [
+      "pending",
+      "taizi",
+      "zhongshu",
+      "menxia",
+      "assigned",
+      "doing",
+      "review",
+      "completed",
+      "failed",
+      "cancelled"
+    ],
+    "state_definitions": {
+      "pending": {
+        "description": "任务刚创建，等待太子分拣",
+        "actor": null,
+        "next": [
+          "taizi"
+        ]
+      },
+      "taizi": {
+        "description": "太子判断复杂度",
+        "actor": "taizi",
+        "next": [
+          "zhongshu",
+          "completed"
+        ]
+      },
+      "zhongshu": {
+        "description": "中书省规划方案",
+        "actor": "zhongshu",
+        "next": [
+          "menxia"
+        ]
+      },
+      "menxia": {
+        "description": "门下省审核方案",
+        "actor": "menxia",
+        "next": [
+          "zhongshu",
+          "assigned"
+        ]
+      },
+      "assigned": {
+        "description": "尚书省已派发",
+        "actor": "shangshu",
+        "next": [
+          "doing"
+        ]
+      },
+      "doing": {
+        "description": "六部执行中",
+        "actor": "liubu",
+        "next": [
+          "review"
+        ]
+      },
+      "review": {
+        "description": "尚书省汇总审核",
+        "actor": "shangshu",
+        "next": [
+          "completed",
+          "menxia"
+        ]
+      },
+      "completed": {
+        "description": "任务完成",
+        "actor": null,
+        "next": []
+      },
+      "failed": {
+        "description": "任务失败",
+        "actor": null,
+        "next": [
+          "taizi"
+        ]
+      },
+      "cancelled": {
+        "description": "任务已取消",
+        "actor": null,
+        "next": []
+      }
+    },
+    "task_id_format": {
+      "pattern": "JJC-YYYYMMDD-NNN",
+      "prefix": "JJC",
+      "date_format": "YYYYMMDD",
+      "sequence_digits": 3,
+      "example": "JJC-20260324-001"
+    },
+    "cancel_mechanism": {
+      "enabled": true,
+      "triggered_by": "dashboard_ui",
+      "propagation": "cascade",
+      "graceful_timeout_sec": 10,
+      "actions": {
+        "zhongshu": "停止规划，保存已生成内容",
+        "menxia": "停止审核，记录审核状态",
+        "shangshu": "停止派发，取消待执行任务",
+        "libu": "停止技能操作，回滚未完成安装",
+        "bingbu": "终止代码执行，清理临时文件",
+        "hubu": "停止数据操作，确保数据一致性",
+        "libu-justice": "停止文档生成，保存中间结果",
+        "xingbu": "记录中断审计日志",
+        "gongbu": "停止部署，回滚已部署资源"
+      }
+    },
+    "retry_policy": {
+      "max_attempts": 3,
+      "backoff_strategy": "exponential",
+      "retryable_errors": [
+        "timeout",
+        "temporary_failure",
+        "resource_unavailable"
+      ],
+      "non_retryable_errors": [
+        "permission_denied",
+        "invalid_input",
+        "circular_dependency"
+      ]
+    }
+  },
+  "memory": {
+    "integration": {
+      "openviking": {
+        "enabled": true,
+        "endpoint": "http://localhost:8080",
+        "fallback_to_session": true
+      }
+    },
+    "classification": {
+      "auto_classify": true,
+      "rules": {
+        "L0_ephemeral": [
+          "temp_calculations",
+          "draft_content"
+        ],
+        "L1_session": [
+          "current_context",
+          "active_task_info"
+        ],
+        "L2_short_term": [
+          "recent_tasks",
+          "frequent_queries"
+        ],
+        "L3_long_term": [
+          "important_decisions",
+          "project_context"
+        ],
+        "L4_permanent": [
+          "user_preferences",
+          "core_knowledge",
+          "system_config"
+        ]
+      }
+    }
+  },
+  "dashboard": {
+    "enabled": true,
+    "port": 18790,
+    "dynamic_departments": true,
+    "department_config_source": "config/agents",
+    "auto_refresh_sec": 5,
+    "features": {
+      "task_monitoring": true,
+      "department_status": true,
+      "memory_browser": true,
+      "skill_registry": true,
+      "audit_logs": true,
+      "cancel_task": true
+    }
+  },
+  "logging": {
+    "level": "info",
+    "path": "/Users/kuang/.openreign/logs",
+    "rotation": {
+      "max_size_mb": 100,
+      "max_files": 10
+    },
+    "departments": {
+      "taizi": "taizi.log",
+      "zhongshu": "zhongshu.log",
+      "menxia": "menxia.log",
+      "shangshu": "shangshu.log",
+      "liubu": "liubu.log"
+    }
+  },
+  "level_definitions": [
+    {
+      "level": 1,
+      "name": "中枢",
+      "description": "任务分发中枢",
+      "color": "#FFD700"
+    },
+    {
+      "level": 2,
+      "name": "辅政层",
+      "description": "三省 + 外史院",
+      "color": "#4A90D9"
+    },
+    {
+      "level": 3,
+      "name": "执行层",
+      "description": "六部 + 外邦使节",
+      "color": "#50C878"
+    }
+  ],
+  "versioning": {
+    "current": "1.2.2",
+    "release_date": "2026-03-24",
+    "changelog": "docs/CHANGELOG.md",
+    "upgrade_path": "docs/UPGRADE.md"
+  }
+}

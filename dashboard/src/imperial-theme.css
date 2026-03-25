@@ -1,0 +1,264 @@
+/* OpenReign Pro 帝国复古主题 */
+
+:root {
+  /* 主色调 - 皇家金黄 */
+  --imperial-gold: #D4AF37;
+  --imperial-gold-light: #F4E4BC;
+  --imperial-gold-dark: #8B6914;
+  --imperial-gold-glow: rgba(212, 175, 55, 0.3);
+
+  /* 辅色 - 朱砂红 */
+  --cinnabar-red: #C93756;
+  --cinnabar-red-light: #E8A5B3;
+  --cinnabar-red-dark: #8B2639;
+
+  /* 背景 - 玄黑 */
+  --mystic-black: #0A0A0A;
+  --mystic-black-light: #1A1A1A;
+  --mystic-black-lighter: #2A2A2A;
+
+  /* 文字 - 宣纸白 */
+  --rice-paper: #F5F5DC;
+  --rice-paper-dim: #C9C9B5;
+  --rice-paper-dark: #8A8A7A;
+
+  /* 玉色 */
+  --jade-green: #00A86B;
+  --jade-light: #7FCDAE;
+
+  /* 渐变 */
+  --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F4E4BC 50%, #D4AF37 100%);
+  --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
+
+  /* 阴影 */
+  --shadow-gold: 0 0 20px rgba(212, 175, 55, 0.2);
+  --shadow-red: 0 0 20px rgba(201, 55, 86, 0.2);
+}
+
+/* 全局背景 */
+.imperial-body {
+  background: var(--mystic-black);
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(201, 55, 86, 0.03) 0%, transparent 50%);
+}
+
+/* 玉牌卡片 */
+.jade-card {
+  background: linear-gradient(145deg, rgba(26, 26, 26, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.jade-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+
+.jade-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-2px);
+}
+
+/* 玉牌光泽 */
+.jade-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(212, 175, 55, 0.03) 50%,
+    transparent 70%
+  );
+  animation: jadeShine 3s ease-in-out infinite;
+}
+
+@keyframes jadeShine {
+  0%, 100% { transform: translateX(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* 印章按钮 */
+.seal-button {
+  background: linear-gradient(145deg, #C93756 0%, #8B2639 100%);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  color: var(--rice-paper);
+  font-weight: 600;
+  padding: 10px 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.seal-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.seal-button:hover::before {
+  opacity: 1;
+}
+
+.seal-button:hover {
+  box-shadow: var(--shadow-red);
+  transform: scale(1.02);
+}
+
+/* 金色文字 */
+.gold-text {
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+/* 龙纹背景 */
+.dragon-pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 15 L45 15 L38 22 L40 32 L30 26 L20 32 L22 22 L15 15 L25 15 Z' fill='%23D4AF37'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+
+/* 宣纸纹理 */
+.rice-paper-texture {
+  background-color: var(--mystic-black);
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(245, 245, 220, 0.01) 2px,
+      rgba(245, 245, 220, 0.01) 4px
+    );
+}
+
+/* 导航玉牌 */
+.nav-jade {
+  background: rgba(26, 26, 26, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--rice-paper-dim);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-jade:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  color: var(--rice-paper);
+}
+
+.nav-jade.active {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.4);
+  color: var(--imperial-gold);
+}
+
+/* 卷轴装饰 */
+.scroll-decoration {
+  position: relative;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+  border-left: 3px solid var(--imperial-gold);
+  border-right: 3px solid var(--imperial-gold);
+}
+
+.scroll-decoration::before,
+.scroll-decoration::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--imperial-gold), transparent);
+}
+
+.scroll-decoration::before { top: 0; }
+.scroll-decoration::after { bottom: 0; }
+
+/* 状态标签 */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-tag.pending {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--imperial-gold);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.status-tag.active {
+  background: rgba(0, 168, 107, 0.15);
+  color: var(--jade-green);
+  border: 1px solid rgba(0, 168, 107, 0.3);
+}
+
+.status-tag.error {
+  background: rgba(201, 55, 86, 0.15);
+  color: var(--cinnabar-red);
+  border: 1px solid rgba(201, 55, 86, 0.3);
+}
+
+/* 动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* 脉冲金光 */
+@keyframes pulseGold {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+}
+
+.pulse-gold {
+  animation: pulseGold 2s ease-in-out infinite;
+}

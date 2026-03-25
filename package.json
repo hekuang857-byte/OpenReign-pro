@@ -1,0 +1,30 @@
+{
+  "name": "openreign-pro",
+  "version": "1.2.1",
+  "description": "OpenReign Pro - OpenClaw Gateway 之上的三省六部治理架构",
+  "scripts": {
+    "install:wizard": "node scripts/install.js",
+    "postinstall": "node scripts/install.js",
+    "dev": "cd dashboard && npm run dev",
+    "build": "cd dashboard && npm run build",
+    "start": "cd dashboard && npm start",
+    "server": "cd dashboard && npm run server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/openreign-pro.git"
+  },
+  "keywords": [
+    "openclaw",
+    "ai",
+    "agent",
+    "governance",
+    "dashboard",
+    "three-councils-six-ministries"
+  ],
+  "author": "Lobster",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,502 @@
+/* OpenReign Pro 动画效果 */
+
+/* ═══ 文字逐显动画 ═══ */
+@keyframes charFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.imperial-text-char {
+  display: inline-block;
+  opacity: 0;
+  animation: charFadeIn 0.5s ease-out forwards;
+}
+
+/* ═══ 玉牌悬浮动画 ═══ */
+@keyframes jadeFloat {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+  }
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.25);
+  }
+}
+
+.jade-card-hover:hover {
+  animation: jadeFloat 2s ease-in-out infinite;
+}
+
+/* ═══ 龙纹粒子动画 ═══ */
+@keyframes dragonParticle {
+  0% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(0deg);
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) rotate(360deg);
+  }
+}
+
+.dragon-particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.6) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: dragonParticle 15s linear infinite;
+}
+
+/* ═══ 诏令宣读动画 ═══ */
+@keyframes edictReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes edictScroll {
+  from {
+    transform: translateX(-50%) scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sealStamp {
+  0% {
+    transform: scale(3) rotate(-10deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.9) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.edict-announcement {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.5s ease;
+}
+
+.edict-scroll {
+  position: relative;
+  width: 400px;
+  background: linear-gradient(180deg, #F5F5DC 0%, #E8E4D0 100%);
+  border: 3px solid #D4AF37;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+  animation: edictScroll 0.8s ease-out forwards;
+}
+
+.edict-scroll::before,
+.edict-scroll::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+
+.edict-scroll::before { top: 10px; }
+.edict-scroll::after { bottom: 10px; }
+
+.edict-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #8B0000;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Noto Serif SC', serif;
+  letter-spacing: 8px;
+}
+
+.edict-body {
+  font-size: 16px;
+  color: #333;
+  line-height: 2;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.edict-seal {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  background: #C93756;
+  border: 3px solid #8B2639;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F5F5DC;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: 'Noto Serif SC', serif;
+  box-shadow: 0 4px 15px rgba(201, 55, 86, 0.4);
+  animation: sealStamp 0.6s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+/* ═══ 印章盖印动画 ═══ */
+@keyframes sealStamp {
+  0% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.seal-stamp {
+  animation: sealStamp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ═══ 金光脉冲动画 ═══ */
+@keyframes goldenPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(212, 175, 55, 0);
+  }
+}
+
+.golden-pulse {
+  animation: goldenPulse 2s ease-in-out infinite;
+}
+
+/* ═══ 卷轴展开动画 ═══ */
+@keyframes scrollUnroll {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.scroll-unroll {
+  transform-origin: left center;
+  animation: scrollUnroll 0.8s ease-out forwards;
+}
+
+/* ═══ 玉牌光泽流动 ═══ */
+@keyframes jadeShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(45deg);
+  }
+}
+
+.jade-shine-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.1),
+    transparent
+  );
+  animation: jadeShine 3s ease-in-out infinite;
+}
+
+/* ═══ 炫酷古风页面切换 ═══ */
+
+/* 卷轴展开 */
+@keyframes scrollOpen {
+  0% {
+    clip-path: inset(0 50% 0 50%);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  30% {
+    clip-path: inset(0 40% 0 40%);
+    opacity: 0.3;
+  }
+  60% {
+    clip-path: inset(0 10% 0 10%);
+    opacity: 0.7;
+    filter: blur(5px);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* 水墨晕染 */
+@keyframes inkSpread {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0;
+  }
+  50% {
+    clip-path: circle(50% at 50% 50%);
+    opacity: 0.8;
+  }
+  100% {
+    clip-path: circle(150% at 50% 50%);
+    opacity: 1;
+  }
+}
+
+/* 龙纹飞入 */
+@keyframes dragonFly {
+  0% {
+    transform: translateX(-100vw) scale(0.5);
+    opacity: 0;
+    filter: blur(20px);
+  }
+  50% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8;
+    filter: blur(5px);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* 金光炸裂 */
+@keyframes goldenBurst {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    filter: brightness(3);
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: brightness(2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+/* 云雾散开 */
+@keyframes mistClear {
+  0% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: blur(30px) brightness(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(15px) brightness(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) brightness(1);
+  }
+}
+
+/* 页面切换动画类 */
+.page-transition-scroll {
+  animation: scrollOpen 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.page-transition-ink {
+  animation: inkSpread 0.6s ease-out forwards;
+}
+
+.page-transition-dragon {
+  animation: dragonFly 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.page-transition-burst {
+  animation: goldenBurst 0.5s ease-out forwards;
+}
+
+.page-transition-mist {
+  animation: mistClear 1s ease-out forwards;
+}
+
+/* 随机切换效果 */
+.page-transition-random {
+  animation: var(--transition-animation, scrollOpen) 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ═══ 任务状态流动 ═══ */
+@keyframes statusFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.status-flow {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.2),
+    rgba(212, 175, 55, 0.4),
+    rgba(212, 175, 55, 0.2)
+  );
+  background-size: 200% 100%;
+  animation: statusFlow 2s linear infinite;
+}
+
+/* ═══ 上朝仪式动画 ═══ */
+@keyframes courtCeremony {
+  0% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.court-ceremony {
+  animation: courtCeremony 1.5s ease-out forwards;
+}
+
+/* ═══ 龙纹背景动画 ═══ */
+@keyframes dragonPattern {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.dragon-pattern-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L60 30 L80 30 L65 45 L70 65 L50 55 L30 65 L35 45 L20 30 L40 30 Z' fill='none' stroke='rgba(212,175,55,0.03)' stroke-width='1'/%3E%3C/svg%3E");
+  animation: dragonPattern 60s linear infinite;
+}
+
+/* ═══ 按钮涟漪效果 ═══ */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+
+.ripple-effect:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+/* ═══ 加载动画 ═══ */
+@keyframes imperialLoading {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.imperial-loading {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-top-color: #D4AF37;
+  border-radius: 50%;
+  animation: imperialLoading 1s linear infinite;
+}
+
+/* ═══ 闪烁金光 ═══ */
+@keyframes goldenTwinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.golden-twinkle {
+  animation: goldenTwinkle 2s ease-in-out infinite;
+}
