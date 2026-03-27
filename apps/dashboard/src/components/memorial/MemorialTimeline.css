@@ -1,0 +1,233 @@
+/**
+ * 奏折时间线样式
+ * 古风设计
+ */
+
+.memorial-timeline {
+  background: linear-gradient(135deg, #f5f0e6 0%, #e8e0d0 100%);
+  border: 2px solid #8b7355;
+  border-radius: 8px;
+  padding: 20px;
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+}
+
+.timeline-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #c4b49a;
+}
+
+.timeline-header h3 {
+  margin: 0;
+  color: #5c4033;
+  font-size: 1.3em;
+  letter-spacing: 4px;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 连接线 */
+.timeline-connector {
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  width: 2px;
+  height: calc(100% + 24px);
+  background: linear-gradient(to bottom, var(--stage-color, #8b7355), #c4b49a);
+}
+
+.timeline-item:last-child .timeline-connector {
+  display: none;
+}
+
+/* 节点 */
+.timeline-node {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--stage-color, #8b7355);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.timeline-icon {
+  font-size: 1.2em;
+}
+
+.timeline-check {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: #228b22;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: white;
+  border: 2px solid #f5f0e6;
+}
+
+/* 内容区 */
+.timeline-content {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--stage-color, #8b7355);
+}
+
+.timeline-stage-name {
+  font-weight: bold;
+  color: var(--stage-color, #5c4033);
+  font-size: 1.1em;
+  margin-bottom: 4px;
+}
+
+.timeline-time {
+  font-size: 0.85em;
+  color: #8b7355;
+  margin-bottom: 8px;
+}
+
+.timeline-title {
+  color: #3d2914;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.timeline-detail {
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(139, 115, 85, 0.1);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #5c4033;
+}
+
+.detail-line {
+  margin: 2px 0;
+  padding-left: 12px;
+  position: relative;
+}
+
+.detail-line::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #8b7355;
+}
+
+/* 子任务 */
+.timeline-subtasks {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(139, 115, 85, 0.15);
+  border-radius: 12px;
+  font-size: 0.85em;
+}
+
+.subtask-dept {
+  color: #5c4033;
+  font-weight: 500;
+}
+
+.subtask-status {
+  color: #228b22;
+  font-size: 0.8em;
+}
+
+/* 结果标记 */
+.timeline-result {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.timeline-result.approved {
+  background: rgba(34, 139, 34, 0.15);
+  color: #228b22;
+}
+
+.timeline-result.rejected {
+  background: rgba(220, 20, 60, 0.15);
+  color: #dc143c;
+}
+
+/* 当前阶段高亮 */
+.timeline-item.current .timeline-node {
+  animation: pulse 2s infinite;
+}
+
+.timeline-item.current .timeline-content {
+  background: rgba(255, 215, 0, 0.15);
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 215, 0, 0);
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .memorial-timeline {
+    padding: 15px;
+  }
+  
+  .timeline-container {
+    padding-left: 30px;
+  }
+  
+  .timeline-connector {
+    left: 15px;
+  }
+  
+  .timeline-node {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .timeline-icon {
+    font-size: 1em;
+  }
+}

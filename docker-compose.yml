@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    ports:
+      - "18790:18790"
+    environment:
+      - NODE_ENV=production
+      - OPENREIGN_CONFIG_PATH=/app/config/openreign.json
+    volumes:
+      - ./config:/app/config:ro
+      - ./shared:/app/shared
+    networks:
+      - openreign-network
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    networks:
+      - openreign-network
+
+networks:
+  openreign-network:
+    driver: bridge

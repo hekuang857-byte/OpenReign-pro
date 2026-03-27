@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenReign Department Configuration",
+  "description": "部门配置 Schema - 支持核心部门职责配置和扩展部门定义",
+  
+  "definitions": {
+    "Responsibility": {
+      "type": "string",
+      "enum": [
+        "code_execution",
+        "architecture_design",
+        "tool_invocation",
+        "debugging",
+        "data_analysis",
+        "document_writing",
+        "security_audit",
+        "testing",
+        "deployment",
+        "skill_management",
+        "external_communication"
+      ]
+    },
+    
+    "ExecutionMode": {
+      "type": "string",
+      "enum": ["skill_based", "direct", "hybrid"],
+      "description": "执行模式：skill_based=调用skill, direct=直接执行, hybrid=混合"
+    },
+    
+    "DepartmentLevel": {
+      "type": "integer",
+      "enum": [1, 2, 3],
+      "description": "1=决策层(太子), 2=省层级, 3=六部级"
+    },
+    
+    "CoreDepartment": {
+      "type": "object",
+      "required": ["id", "name", "level", "responsibilities"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "nameEn": { "type": "string" },
+        "role": { "type": "string" },
+        "level": { "$ref": "#/definitions/DepartmentLevel" },
+        "enabled": { "type": "boolean", "default": true },
+        "type": { 
+          "type": "string", 
+          "enum": ["core"],
+          "default": "core"
+        },
+        
+        "responsibilities": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Responsibility" }
+        },
+        
+        "execution": {
+          "type": "object",
+          "properties": {
+            "mode": { "$ref": "#/definitions/ExecutionMode" },
+            "primarySkill": { "type": "string" },
+            "fallbackSkills": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "timeout": { "type": "integer", "default": 300000 }
+          }
+        },
+        
+        "reporting": {
+          "type": "object",
+          "properties": {
+            "progressTemplate": { 
+              "type": "string",
+              "default": "{name}正在{action}：{detail}"
+            },
+            "todoCategories": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        
+        "auditRules": {
+          "type": "object",
+          "properties": {
+            "requiredFields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "riskChecks": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    
+    "ExtensionDepartment": {
+      "type": "object",
+      "required": ["id", "name", "type", "level", "parent"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "nameEn": { "type": "string" },
+        "role": { "type": "string" },
+        "level": { "$ref": "#/definitions/DepartmentLevel" },
+        "parent": { 
+          "type": "string",
+          "description": "上级部门ID，如 shangshu"
+        },
+        "enabled": { "type": "boolean", "default": true },
+        "type": { 
+          "type": "string", 
+          "enum": ["extension"],
+          "const": "extension"
+        },
+        
+        "responsibilities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        
+        "execution": {
+          "type": "object",
+          "required": ["mode"],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": ["skill", "script", "agent"]
+            },
+            "skill": { "type": "string" },
+            "entrypoint": { "type": "string", "default": "execute" },
+            "script": { "type": "string" },
+            "agentId": { "type": "string" },
+            "promptTemplate": { "type": "string" },
+            "timeout": { "type": "integer", "default": 60000 }
+          }
+        },
+        
+        "reporting": {
+          "type": "object",
+          "properties": {
+            "progressTemplate": { "type": "string" },
+            "todoCategories": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  },
+  
+  "type": "object",
+  "properties": {
+    "departments": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z][a-z0-9_-]*$": {
+          "oneOf": [
+            { "$ref": "#/definitions/CoreDepartment" },
+            { "$ref": "#/definitions/ExtensionDepartment" }
+          ]
+        }
+      }
+    }
+  }
+}

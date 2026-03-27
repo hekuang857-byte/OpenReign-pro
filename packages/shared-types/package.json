@@ -1,0 +1,12 @@
+{
+  "name": "@openreign/shared-types",
+  "version": "1.2.2",
+  "description": "OpenReign Pro 共享类型定义",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

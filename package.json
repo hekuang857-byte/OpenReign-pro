@@ -1,14 +1,30 @@
 {
   "name": "openreign-pro",
-  "version": "1.2.1",
-  "description": "OpenReign Pro - OpenClaw Gateway 之上的三省六部治理架构",
+  "version": "1.2.2",
+  "description": "OpenReign Pro - 基于三省六部制的 AI 多 Agent 协作框架",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "node src/main.js",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
     "install:wizard": "node scripts/install.js",
     "postinstall": "node scripts/install.js",
-    "dev": "cd dashboard && npm run dev",
-    "build": "cd dashboard && npm run build",
-    "start": "cd dashboard && npm start",
-    "server": "cd dashboard && npm run server"
+    "setup": "npm run install:wizard",
+    "start:server": "node apps/server/src/index.js",
+    "start:dashboard": "cd apps/dashboard && npm run dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -22,9 +38,7 @@
     "dashboard",
     "three-councils-six-ministries"
   ],
-  "author": "Lobster",
+  "author": "heykode",
   "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "main": "src/main.js"
 }

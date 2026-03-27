@@ -1,0 +1,564 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "部门职责配置 - 支持核心部门行为定制和扩展部门定义",
+    "last_updated": "2026-03-26"
+  },
+  
+  "core_departments": {
+    "taizi": {
+      "id": "taizi",
+      "name": "太子",
+      "nameEn": "Crown Prince",
+      "role": "任务分发中枢",
+      "level": 1,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "message_classification",
+        "intent_recognition",
+        "task_creation",
+        "simple_task_execution"
+      ],
+      
+      "execution": {
+        "mode": "direct",
+        "timeout": 30000
+      },
+      
+      "reporting": {
+        "progressTemplate": "太子正在{action}：{detail}",
+        "todoCategories": ["消息分析", "意图识别", "任务分拣"]
+      },
+      
+      "classification_rules": {
+        "chat_patterns": [
+          "你好", "在吗", "谢谢", "再见", "帮助",
+          "^(hi|hello|hey)$",
+          "怎么样", "如何", "什么是"
+        ],
+        "task_indicators": [
+          "帮我", "请", "需要", "想要",
+          "创建一个", "生成", "分析", "查询"
+        ],
+        "complexity_threshold": 3
+      }
+    },
+    
+    "zhongshu": {
+      "id": "zhongshu",
+      "name": "中书省",
+      "nameEn": "Chancellery",
+      "role": "决策与规划",
+      "level": 2,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "requirement_analysis",
+        "plan_design",
+        "subtask_decomposition",
+        "department_assignment"
+      ],
+      
+      "execution": {
+        "mode": "hybrid",
+        "primarySkill": "task-planning",
+        "fallbackSkills": ["claude-code", "stepfun-coder"],
+        "timeout": 120000
+      },
+      
+      "reporting": {
+        "progressTemplate": "中书省正在{action}：{detail}",
+        "todoCategories": ["需求分析", "方案设计", "子任务拆解", "部门分配"]
+      },
+      
+      "planning": {
+        "min_subtasks": 3,
+        "max_subtasks": 10,
+        "required_fields": ["title", "description", "estimated_time"],
+        "auto_assign_dept": true
+      }
+    },
+    
+    "menxia": {
+      "id": "menxia",
+      "name": "门下省",
+      "nameEn": "Menxia Province",
+      "role": "审核与监督",
+      "level": 2,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "feasibility_audit",
+        "completeness_check",
+        "risk_assessment",
+        "resource_evaluation"
+      ],
+      
+      "execution": {
+        "mode": "direct",
+        "timeout": 60000
+      },
+      
+      "reporting": {
+        "progressTemplate": "门下省正在{action}：{detail}",
+        "todoCategories": ["可行性审查", "完整性检查", "风险评估", "资源评估"]
+      },
+      
+      "auditRules": {
+        "dimensions": {
+          "feasibility": {
+            "enabled": true,
+            "weight": 0.25,
+            "checks": ["technical_path", "dependencies", "skills"]
+          },
+          "completeness": {
+            "enabled": true,
+            "weight": 0.25,
+            "checks": ["subtask_count", "required_fields", "key_phases"]
+          },
+          "risks": {
+            "enabled": true,
+            "weight": 0.25,
+            "checks": ["high_risk_ops", "external_deps", "rollback_plan"]
+          },
+          "resources": {
+            "enabled": true,
+            "weight": 0.25,
+            "checks": ["dept_assignment", "workload", "time_estimate"]
+          }
+        },
+        "max_review_rounds": 3,
+        "auto_approve_threshold": 0.8,
+        "critical_issue_block": true
+      }
+    },
+    
+    "shangshu": {
+      "id": "shangshu",
+      "name": "尚书省",
+      "nameEn": "Shangshu Province",
+      "role": "执行总调度",
+      "level": 2,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "task_dispatch",
+        "progress_tracking",
+        "result_aggregation",
+        "execution_coordination"
+      ],
+      
+      "execution": {
+        "mode": "direct",
+        "timeout": 300000
+      },
+      
+      "reporting": {
+        "progressTemplate": "尚书省正在{action}：{detail}",
+        "todoCategories": ["任务派发", "进度跟踪", "结果汇总", "协调执行"]
+      },
+      
+      "dispatch": {
+        "parallel_execution": true,
+        "max_concurrent": 3,
+        "dependency_resolution": true,
+        "auto_retry": true,
+        "retry_attempts": 2
+      }
+    }
+  },
+  
+  "liubu": {
+    "libu": {
+      "id": "libu",
+      "name": "吏部",
+      "nameEn": "Libu",
+      "role": "人事与技能管理",
+      "level": 3,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "skill_management",
+        "skill_installation",
+        "skill_update",
+        "conflict_resolution",
+        "department_registration",
+        "department_governance",
+        "permission_matrix_management",
+        "state_machine_configuration",
+        "call_relation_setup"
+      ],
+      
+      "execution": {
+        "mode": "skill_based",
+        "primarySkill": "skill-manager",
+        "timeout": 120000
+      },
+      
+      "reporting": {
+        "progressTemplate": "吏部正在{action}：{detail}",
+        "todoCategories": ["技能安装", "技能更新", "冲突解决", "注册管理"]
+      },
+      
+      "skill_governance": {
+        "auto_update_check": true,
+        "conflict_resolution": "manual_approval",
+        "similarity_threshold": 0.8,
+        "registry_path": "~/.openreign/registry/skills"
+      }
+    },
+    
+    "bingbu": {
+      "id": "bingbu",
+      "name": "兵部",
+      "nameEn": "Bingbu",
+      "role": "代码执行与工具调用",
+      "level": 3,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "code_execution",
+        "architecture_design",
+        "tool_invocation",
+        "debugging"
+      ],
+      
+      "execution": {
+        "mode": "hybrid",
+        "primarySkill": "coding-agent",
+        "fallbackSkills": ["claude-code", "codex", "pi"],
+        "timeout": 300000
+      },
+      
+      "reporting": {
+        "progressTemplate": "兵部正在{action}：{detail}",
+        "todoCategories": ["需求分析", "方案设计", "编码实现", "测试验证"]
+      },
+      
+      "resource_limits": {
+        "max_execution_time_sec": 300,
+        "max_memory_mb": 2048,
+        "max_file_size_mb": 100,
+        "network_access": "restricted"
+      },
+      
+      "auditRules": {
+        "requiredFields": ["code", "tests"],
+        "riskChecks": ["security", "performance"]
+      }
+    },
+    
+    "hubu": {
+      "id": "hubu",
+      "name": "户部",
+      "nameEn": "Hubu",
+      "role": "数据与记忆管理",
+      "level": 3,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "data_analysis",
+        "memory_management",
+        "data_cleaning",
+        "report_generation"
+      ],
+      
+      "execution": {
+        "mode": "skill_based",
+        "primarySkill": "data-analyst",
+        "timeout": 180000
+      },
+      
+      "reporting": {
+        "progressTemplate": "户部正在{action}：{detail}",
+        "todoCategories": ["数据获取", "数据清洗", "数据分析", "报表生成"]
+      },
+      
+      "data_governance": {
+        "classification_levels": ["public", "internal", "confidential", "secret"],
+        "retention_policies": {
+          "short_term": "7d",
+          "medium_term": "30d",
+          "long_term": "365d"
+        }
+      }
+    },
+    
+    "libu-justice": {
+      "id": "libu-justice",
+      "name": "礼部",
+      "nameEn": "Libu Justice",
+      "role": "文档与沟通管理",
+      "level": 3,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "document_writing",
+        "ui_design",
+        "external_communication",
+        "content_creation"
+      ],
+      
+      "execution": {
+        "mode": "skill_based",
+        "primarySkill": "content-writer",
+        "timeout": 120000
+      },
+      
+      "reporting": {
+        "progressTemplate": "礼部正在{action}：{detail}",
+        "todoCategories": ["资料收集", "文档起草", "审阅修改", "发布沟通"]
+      }
+    },
+    
+    "xingbu": {
+      "id": "xingbu",
+      "name": "刑部",
+      "nameEn": "Xingbu",
+      "role": "安全与审计",
+      "level": 3,
+      "type": "core",
+      "enabled": true,
+      
+      "responsibilities": [
+        "security_audit",
+        "code_review",
+        "compliance_check",
+        "vulnerability_scan"
+      ],
+      
+      "execution": {
+        "mode": "skill_based",
+        "primarySkill": "security-auditor",
+        "timeout": 180000
+      },
+      
+      "reporting": {
+        "progressTemplate": "刑部正在{action}：{detail}",
+        "todoCategories": ["安全扫描", "代码审查", "合规检查", "漏洞修复"]
+      },
+      
+      "security_rules": {
+        "scan_depth": "deep",
+        "auto_fix": false,
+        "severity_threshold": "medium"
+      }
+    },
+    
+    "gongbu": {
+      "id": "gongbu",
+      "name": "工部",
+      "nameEn": "Gongbu",
+      "role": "部署与运维",
+      "level": 3,
+      "type": "core",
+      "enabled": true,
+
+      "responsibilities": [
+        "deployment",
+        "infrastructure_management",
+        "monitoring",
+        "maintenance"
+      ],
+
+      "execution": {
+        "mode": "skill_based",
+        "primarySkill": "devops-agent",
+        "timeout": 300000
+      },
+
+      "reporting": {
+        "progressTemplate": "工部正在{action}：{detail}",
+        "todoCategories": ["环境准备", "部署实施", "监控配置", "维护优化"]
+      },
+
+      "resource_limits": {
+        "max_execution_time_sec": 300,
+        "max_memory_mb": 2048,
+        "network_access": "restricted"
+      },
+
+      "burst_mode": {
+        "enabled": true,
+        "trigger": "large_deployment",
+        "max_execution_time_sec": 600,
+        "max_memory_mb": 4096,
+        "requires_approval": true
+      },
+
+      "deployment": {
+        "environments": ["dev", "staging", "production"],
+        "rollback_enabled": true,
+        "health_check": true
+      }
+    }
+  },
+  
+  "extension_departments": {
+    "_comment": "用户可在此添加自定义部门，自动接入三省六部流程",
+    
+    "kanys": {
+      "id": "kanys",
+      "name": "勘验司",
+      "nameEn": "Examination Office",
+      "title": "勘验司郎中",
+      "role": "技术验收，质量把关",
+      "level": 3,
+      "type": "core",
+      "parent": "shangshu",
+      "enabled": true,
+      "workflow_position": "post_execution",
+      
+      "responsibilities": [
+        "环境检测",
+        "技术验收",
+        "安全扫描",
+        "性能测试",
+        "文档审查",
+        "dept_config_validation",
+        "dept_integration_check",
+        "dept_term_check",
+        "dept_skill_check"
+      ],
+      
+      "execution": {
+        "mode": "skill",
+        "skill": "demo-analyzer",
+        "entrypoint": "execute",
+        "timeout": 120000
+      },
+      
+      "reporting": {
+        "progressTemplate": "启奏陛下，勘验司正在{action}，{detail}",
+        "todoCategories": ["环境勘验", "技术验收", "安全扫描", "出具勘验报告"]
+      },
+      
+      "workflow": {
+        "trigger": "post_execution",
+        "blocking": true,
+        "maxRetries": 3,
+        "onFailure": "return_to_gongbu"
+      },
+      
+      "inspectionRules": {
+        "environment": {
+          "checkPorts": true,
+          "checkDependencies": true,
+          "checkPermissions": true
+        },
+        "security": {
+          "scanVulnerabilities": true,
+          "checkSecrets": true,
+          "validateInputs": true
+        },
+        "performance": {
+          "maxStartupTime": 30000,
+          "maxMemoryUsage": "512MB",
+          "healthCheckEndpoint": "/health"
+        },
+        "documentation": {
+          "requireReadme": true,
+          "requireApiDocs": false,
+          "requireChangelog": false
+        }
+      }
+    },
+    
+    "example_taiyiyuan": {
+      "id": "taiyiyuan",
+      "name": "太医院",
+      "nameEn": "Imperial Medical",
+      "role": "医疗与健康管理",
+      "level": 3,
+      "type": "extension",
+      "parent": "shangshu",
+      "enabled": false,
+      
+      "responsibilities": [
+        "diagnosis",
+        "prescription",
+        "medical_advice"
+      ],
+      
+      "execution": {
+        "mode": "skill",
+        "skill": "medical-ai",
+        "entrypoint": "diagnose",
+        "timeout": 120000
+      },
+      
+      "reporting": {
+        "progressTemplate": "太医院正在{action}：{detail}",
+        "todoCategories": ["问诊", "诊断", "开方", "复查"]
+      }
+    },
+    
+    "example_data_science": {
+      "id": "data_science",
+      "name": "数据科学院",
+      "nameEn": "Data Science Academy",
+      "role": "高级数据分析与机器学习",
+      "level": 3,
+      "type": "extension",
+      "parent": "shangshu",
+      "enabled": false,
+      
+      "responsibilities": [
+        "machine_learning",
+        "deep_learning",
+        "data_mining",
+        "model_training"
+      ],
+      
+      "execution": {
+        "mode": "skill",
+        "skill": "data-science",
+        "entrypoint": "analyze",
+        "timeout": 300000
+      },
+      
+      "reporting": {
+        "progressTemplate": "数据科学院正在{action}：{detail}",
+        "todoCategories": ["数据预处理", "特征工程", "模型训练", "结果评估"]
+      }
+    },
+    
+    "example_security_ops": {
+      "id": "security_ops",
+      "name": "安全运维中心",
+      "nameEn": "Security Operations Center",
+      "role": "7x24安全监控与应急响应",
+      "level": 3,
+      "type": "extension",
+      "parent": "shangshu",
+      "enabled": false,
+      
+      "responsibilities": [
+        "threat_detection",
+        "incident_response",
+        "vulnerability_management"
+      ],
+      
+      "execution": {
+        "mode": "script",
+        "script": "/usr/local/bin/soc-monitor",
+        "args": ["--task-id", "{taskId}", "--check"],
+        "timeout": 60000
+      },
+      
+      "reporting": {
+        "progressTemplate": "安全运维中心正在{action}：{detail}",
+        "todoCategories": ["威胁检测", "事件分析", "应急响应", "修复验证"]
+      }
+    }
+  }
+}

@@ -1,0 +1,304 @@
+/**
+ * 奏折卡片样式
+ */
+
+.memorial-card {
+  background: linear-gradient(135deg, #faf8f3 0%, #f0ebe0 100%);
+  border: 3px solid #8b7355;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+}
+
+/* 头部 */
+.memorial-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: linear-gradient(135deg, #8b7355 0%, #6b5344 100%);
+  color: #fff;
+}
+
+.memorial-seal {
+  width: 60px;
+  height: 60px;
+  background: #dc143c;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #ffd700;
+  border: 3px solid #ffd700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.memorial-title-section {
+  flex: 1;
+}
+
+.memorial-title {
+  margin: 0 0 8px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.memorial-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+.memorial-id {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.memorial-status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.memorial-status.completed {
+  background: rgba(34, 139, 34, 0.3);
+}
+
+.memorial-status.pending {
+  background: rgba(255, 165, 0, 0.3);
+}
+
+/* 统计信息 */
+.memorial-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px 24px;
+  background: rgba(139, 115, 85, 0.1);
+  border-bottom: 1px solid #d4c4a8;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  border: 1px solid #d4c4a8;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #5c4033;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 0.85em;
+  color: #8b7355;
+}
+
+/* 时间信息 */
+.memorial-dates {
+  padding: 16px 24px;
+  background: rgba(139, 115, 85, 0.05);
+  border-bottom: 1px solid #d4c4a8;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 0.9em;
+}
+
+.date-label {
+  color: #8b7355;
+}
+
+.date-value {
+  color: #5c4033;
+  font-weight: 500;
+}
+
+/* 标签页 */
+.memorial-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 16px 24px 0;
+  background: #faf8f3;
+  border-bottom: 2px solid #d4c4a8;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: #8b7355;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.tab-btn:hover {
+  background: rgba(139, 115, 85, 0.1);
+  color: #5c4033;
+}
+
+.tab-btn.active {
+  background: #8b7355;
+  color: #fff;
+}
+
+/* 内容区 */
+.memorial-content {
+  padding: 24px;
+  min-height: 300px;
+}
+
+.content-text {
+  background: #fff;
+  border: 1px solid #d4c4a8;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.content-text pre {
+  margin: 0;
+  font-family: 'Noto Serif SC', 'SimSun', monospace;
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #3d2914;
+  white-space: pre-wrap;
+}
+
+/* Markdown 内容 */
+.markdown-content {
+  background: #fff;
+  border: 1px solid #d4c4a8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.markdown-toolbar {
+  padding: 12px 16px;
+  background: #f5f0e6;
+  border-bottom: 1px solid #d4c4a8;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.copy-btn {
+  padding: 8px 16px;
+  background: #8b7355;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.copy-btn:hover {
+  background: #6b5344;
+}
+
+.copy-btn.copied {
+  background: #228b22;
+}
+
+.markdown-preview {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Noto Sans SC', 'Microsoft YaHei', monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: #3d2914;
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 尾部 */
+.memorial-footer {
+  padding: 24px;
+  background: linear-gradient(135deg, #f0ebe0 0%, #e8e0d0 100%);
+  border-top: 2px solid #d4c4a8;
+  text-align: center;
+}
+
+.memorial-closing {
+  margin: 0 0 16px 0;
+  font-size: 1.1em;
+  color: #5c4033;
+  letter-spacing: 4px;
+}
+
+.memorial-stamp {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: #dc143c;
+  border-radius: 50%;
+  line-height: 80px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffd700;
+  border: 4px solid #ffd700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .memorial-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+  }
+  
+  .memorial-seal {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+  }
+  
+  .memorial-title {
+    font-size: 1.2em;
+  }
+  
+  .memorial-stats {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px;
+  }
+  
+  .memorial-tabs {
+    flex-wrap: wrap;
+    padding: 12px 16px 0;
+  }
+  
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 0.9em;
+  }
+  
+  .memorial-content {
+    padding: 16px;
+  }
+}

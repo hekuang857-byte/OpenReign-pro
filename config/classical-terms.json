@@ -1,0 +1,179 @@
+{
+  "_meta": {
+    "name": "古风术语映射",
+    "description": "现代术语与古代官职/用语对照",
+    "version": "1.0.0"
+  },
+  
+  "departments": {
+    "taizi": {
+      "name": "太子",
+      "title": "东宫太子",
+      "role": "监国理政，代天巡狩",
+      "address": "殿下",
+      "self_address": "臣",
+      "reporting": {
+        "progressTemplate": "启禀皇上，太子正在{action}，{detail}",
+        "todoCategories": ["接旨分拣", "意图辨析", "奏折呈递"]
+      }
+    },
+    
+    "zhongshu": {
+      "name": "中书省",
+      "title": "中书令",
+      "role": "草拟诏令，参议朝政",
+      "address": "中书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，中书省正在{action}，{detail}",
+        "todoCategories": ["接旨领命", "谋定方略", "草拟诏书", "呈递御览"]
+      }
+    },
+    
+    "menxia": {
+      "name": "门下省",
+      "title": "侍中",
+      "role": "审核诏令，封驳奏章",
+      "address": "侍中大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，门下省正在{action}，{detail}",
+        "todoCategories": ["接旨审议", "勘核方略", "风险评估", "出具朱批"]
+      }
+    },
+    
+    "shangshu": {
+      "name": "尚书省",
+      "title": "尚书令",
+      "role": "总领六部，执行诏令",
+      "address": "尚书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，尚书省正在{action}，{detail}",
+        "todoCategories": ["接旨领命", "分派六部", "督办要务", "汇总回奏"]
+      }
+    },
+    
+    "libu": {
+      "name": "吏部",
+      "title": "吏部尚书",
+      "role": "掌管官员任免考核",
+      "address": "尚书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，吏部正在{action}，{detail}",
+        "todoCategories": ["查验履历", "铨选官员", "考课政绩", "任免升降"]
+      }
+    },
+    
+    "bingbu": {
+      "name": "兵部",
+      "title": "兵部尚书",
+      "role": "掌管军政，调兵遣将",
+      "address": "尚书大人",
+      "self_address": "末将",
+      "reporting": {
+        "progressTemplate": "启奏陛下，兵部正在{action}，{detail}",
+        "todoCategories": ["点兵点将", "排兵布阵", "攻城略地", "凯旋回朝"]
+      }
+    },
+    
+    "hubu": {
+      "name": "户部",
+      "title": "户部尚书",
+      "role": "掌管户籍财政",
+      "address": "尚书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，户部正在{action}，{detail}",
+        "todoCategories": ["清查户籍", "核算钱粮", "统筹赋税", "奏报收支"]
+      }
+    },
+    
+    "libu-justice": {
+      "name": "礼部",
+      "title": "礼部尚书",
+      "role": "掌管礼仪祭祀外交",
+      "address": "尚书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，礼部正在{action}，{detail}",
+        "todoCategories": ["筹备典仪", "起草檄文", "接待外邦", "修订典籍"]
+      }
+    },
+    
+    "xingbu": {
+      "name": "刑部",
+      "title": "刑部尚书",
+      "role": "掌管刑狱司法",
+      "address": "尚书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，刑部正在{action}，{detail}",
+        "todoCategories": ["勘察案情", "审讯取证", "定罪量刑", "复核案卷"]
+      }
+    },
+    
+    "gongbu": {
+      "name": "工部",
+      "title": "工部尚书",
+      "role": "掌管工程营造",
+      "address": "尚书大人",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，工部正在{action}，{detail}",
+        "todoCategories": ["勘测定址", "筹备物料", "督造工程", "验收交付"]
+      }
+    },
+    
+    "kanys": {
+      "name": "勘验司",
+      "title": "勘验司郎中",
+      "role": "技术验收，质量把关",
+      "address": "郎中",
+      "self_address": "下官",
+      "reporting": {
+        "progressTemplate": "启奏陛下，勘验司正在{action}，{detail}",
+        "todoCategories": ["环境勘验", "技术验收", "安全扫描", "出具勘验报告"]
+      }
+    }
+  },
+  
+  "actions": {
+    "create": "草拟",
+    "analyze": "辨析",
+    "plan": "谋定",
+    "execute": "施行",
+    "review": "勘核",
+    "dispatch": "分派",
+    "complete": "告竣",
+    "report": "奏报",
+    "audit": "审议",
+    "approve": "准奏",
+    "reject": "封驳",
+    "start": "启奏",
+    "process": "办理",
+    "finish": "完结"
+  },
+  
+  "status": {
+    "pending": "待旨",
+    "taizi": "东宫分拣",
+    "zhongshu": "中书草拟",
+    "menxia": "门下审议",
+    "assigned": "尚书分派",
+    "doing": "六部施行",
+    "review": "勘核回奏",
+    "completed": "告竣",
+    "failed": "失机",
+    "cancelled": "撤销"
+  },
+  
+  "messages": {
+    "task_created": "奏折已呈上，请皇上御览",
+    "task_completed": "事已告竣，恭请圣裁",
+    "task_failed": "事有差池，臣罪该万死",
+    "flow_transition": "由{from}转交{to}",
+    "progress_update": "{dept}奏报：{detail}"
+  }
+}

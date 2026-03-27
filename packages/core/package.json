@@ -1,0 +1,17 @@
+{
+  "name": "@openreign/core",
+  "version": "1.2.2",
+  "description": "OpenReign Pro Core - 三省六部核心逻辑",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

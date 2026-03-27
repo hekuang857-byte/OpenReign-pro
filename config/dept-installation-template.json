@@ -1,0 +1,203 @@
+{
+  "_meta": {
+    "name": "部门安装标准流程",
+    "description": "新增部门时的标准检查和安装流程",
+    "version": "1.0.0"
+  },
+  
+  "installation_workflow": {
+    "trigger": "用户请求安装部门",
+    
+    "steps": [
+      {
+        "step": 1,
+        "dept": "taizi",
+        "action": "分拣",
+        "task": "识别为部门安装任务",
+        "output": "创建任务，转交中书省"
+      },
+      {
+        "step": 2,
+        "dept": "zhongshu",
+        "action": "规划",
+        "task": "制定部门安装方案",
+        "subtasks": [
+          {
+            "id": "config-design",
+            "title": "设计部门配置",
+            "dept": "zhongshu",
+            "checklist": [
+              "确定部门ID（小写，无空格）",
+              "确定部门名称",
+              "确定部门类型（core/extension）",
+              "确定父级部门",
+              "定义职责列表",
+              "配置执行模式（skill/script/agent）"
+            ]
+          },
+          {
+            "id": "term-design",
+            "title": "设计古风术语",
+            "dept": "zhongshu",
+            "checklist": [
+              "确定官职名称",
+              "确定自称",
+              "确定上报模板",
+              "确定TODO分类"
+            ]
+          }
+        ],
+        "output": "安装方案，提交门下省审议"
+      },
+      {
+        "step": 3,
+        "dept": "menxia",
+        "action": "审议",
+        "task": "预审部门安装方案",
+        "dimensions": [
+          "配置完整性：必需字段是否齐全",
+          "命名规范：ID是否符合规范",
+          "流程合理性：在架构中的位置是否合适",
+          "依赖检查：skill/script是否存在"
+        ],
+        "output": "准奏或封驳（附修改建议）"
+      },
+      {
+        "step": 4,
+        "dept": "shangshu",
+        "action": "派发",
+        "task": "分派安装子任务",
+        "dispatch": [
+          { "dept": "libu", "task": "部门注册" },
+          { "dept": "bingbu", "task": "代码实现（如需）" },
+          { "dept": "gongbu", "task": "配置部署" },
+          { "dept": "libu-justice", "task": "文档编写" }
+        ],
+        "output": "派发完成，进入执行"
+      },
+      {
+        "step": 5,
+        "dept": "liubu",
+        "action": "并行执行",
+        "parallel": [
+          {
+            "dept": "libu",
+            "tasks": [
+              "注册部门到 departments.json",
+              "更新部门治理 registry",
+              "登记部门权限"
+            ]
+          },
+          {
+            "dept": "bingbu",
+            "tasks": [
+              "实现 executeXxx() 方法（如需）",
+              "创建 skill 文件（如需）",
+              "编写单元测试"
+            ]
+          },
+          {
+            "dept": "gongbu",
+            "tasks": [
+              "部署配置文件",
+              "验证配置格式",
+              "重启服务（如需）"
+            ]
+          },
+          {
+            "dept": "libu-justice",
+            "tasks": [
+              "添加古风术语到 classical-terms.json",
+              "编写部门使用文档",
+              "更新 CHANGELOG"
+            ]
+          }
+        ],
+        "output": "所有子任务完成"
+      },
+      {
+        "step": 6,
+        "dept": "kanys",
+        "action": "集成检查",
+        "task": "执行部门集成检查",
+        "checklist": [
+          {
+            "category": "配置检查",
+            "items": [
+              "部门ID是否唯一",
+              "必需字段是否齐全",
+              "parent是否有效",
+              "execution配置是否正确"
+            ]
+          },
+          {
+            "category": "术语检查",
+            "items": [
+              "是否已添加到 classical-terms.json",
+              "术语是否完整（name/title/role/reporting）"
+            ]
+          },
+          {
+            "category": "代码检查",
+            "items": [
+              "executeXxx() 方法是否实现（core类型）",
+              "skill文件是否存在（skill模式）",
+              "无硬编码旧部门引用"
+            ]
+          },
+          {
+            "category": "展示检查",
+            "items": [
+              "memorial-formatter 是否包含新部门",
+              "时间线显示是否正确"
+            ]
+          }
+        ],
+        "blocking": true,
+        "on_failure": "返回工部修复",
+        "output": "检查报告，通过或驳回"
+      },
+      {
+        "step": 7,
+        "dept": "zhongshu",
+        "action": "回奏",
+        "task": "汇总安装结果",
+        "content": [
+          "部门安装完成",
+          "配置已生效",
+          "术语已添加",
+          "检查已通过",
+          "文档已更新"
+        ],
+        "output": "奏折回禀皇上"
+      }
+    ]
+  },
+  
+  "validation_rules": {
+    "naming": {
+      "id_pattern": "^[a-z][a-z0-9_]*$",
+      "reserved_ids": ["taizi", "zhongshu", "menxia", "shangshu", "libu", "bingbu", "hubu", "libu-justice", "xingbu", "gongbu", "kanys"],
+      "max_length": 32
+    },
+    "required_fields": ["id", "name", "type", "execution"],
+    "type_values": ["core", "extension"],
+    "execution_modes": ["skill", "script", "agent", "direct", "hybrid", "skill_based"]
+  },
+  
+  "auto_fix": {
+    "enabled": true,
+    "fixes": [
+      {
+        "issue": "术语缺失",
+        "action": "自动生成默认术语",
+        "dept": "libu-justice"
+      },
+      {
+        "issue": "skill不存在",
+        "action": "创建skill模板",
+        "dept": "bingbu"
+      }
+    ]
+  }
+}

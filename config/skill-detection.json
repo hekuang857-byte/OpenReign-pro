@@ -1,0 +1,146 @@
+{
+  "_meta": {
+    "name": "技能识别流程配置",
+    "version": "1.1.0",
+    "description": "技能自动识别、能力抽取与分配流程"
+  },
+  
+  "method": {
+    "description": "读SKILL.md → AI分析 → 能力抽取 → 自动分配 → 详细汇报",
+    "steps": [
+      "中书省读取 SKILL.md description",
+      "AI分析功能类型（不看名字，看描述）",
+      "拆解能力（非整体安装）",
+      "匹配六部职责",
+      "自动分配（无需用户确认）",
+      "安装完成后详细汇报（含判断依据）"
+    ],
+    "source": "SKILL.md only",
+    "no_guess_by_name": true,
+    "no_runtime_observation": true,
+    "no_user_confirm": true,
+    "install_mode": "capability_extraction",
+    "fallback": "user_manual_adjust"
+  },
+  
+  "matching": {
+    "thresholds": {
+      "high": 80,
+      "medium": 50,
+      "low": 0
+    },
+    "actions": {
+      "high": "auto_assign",
+      "medium": "auto_assign_with_note",
+      "low": "skip_with_report"
+    }
+  },
+  
+  "assignment_rules": {
+    "bingbu": {
+      "name": "兵部",
+      "keywords": ["search", "browser", "code", "github", "execution", "tool", "algorithm", "ml", "ai"],
+      "description_patterns": ["搜索", "浏览", "代码", "执行", "工具调用", "算法", "机器学习"],
+      "reason": "代码执行、工具调用、算法实现"
+    },
+    "hubu": {
+      "name": "户部",
+      "keywords": ["data", "memory", "analysis", "report", "clean", "process"],
+      "description_patterns": ["数据", "记忆", "分析", "报表", "清洗", "处理"],
+      "reason": "数据管理、分析处理"
+    },
+    "libu": {
+      "name": "礼部",
+      "keywords": ["document", "write", "content", "communication", "ui", "report"],
+      "description_patterns": ["文档", "写作", "内容", "沟通", "界面", "报告"],
+      "reason": "文档编写、内容沟通"
+    },
+    "xingbu": {
+      "name": "刑部",
+      "keywords": ["security", "audit", "review", "check", "vet", "validate"],
+      "description_patterns": ["安全", "审计", "审查", "检查", "验证"],
+      "reason": "安全审计、合规检查"
+    },
+    "gongbu": {
+      "name": "工部",
+      "keywords": ["deploy", "install", "configure", "setup", "maintenance", "infrastructure"],
+      "description_patterns": ["部署", "安装", "配置", "设置", "维护", "基础设施"],
+      "reason": "部署运维、基础设施"
+    },
+    "libu_hr": {
+      "name": "吏部",
+      "keywords": ["skill", "department", "manage", "register", "governance"],
+      "description_patterns": ["技能", "部门", "管理", "注册", "治理"],
+      "reason": "技能管理、部门治理"
+    }
+  },
+  
+  "reporting": {
+    "template": {
+      "header": "✅ {skill_name} 安装完成！",
+      "section_assigned": "📋 能力分配详情",
+      "section_skipped": "⚠️ 未安装能力",
+      "item_assigned": "【{capability}】→ {dept}",
+      "reason_why": "✅ 为什么：{reason}",
+      "reason_why_not": "❌ 为什么不是 {other_dept}：{reason}",
+      "adjust_option": "调整选项：可移至 {other_depts} / 卸载",
+      "section_skipped_reason": "为什么：{reason}"
+    },
+    "show_alternatives": true,
+    "show_confidence": true,
+    "allow_post_install_adjust": true
+  },
+  
+  "capability_extraction": {
+    "mode": "extract_not_whole",
+    "principle": "提取核心能力，非整体打包",
+    "discard_threshold": 50,
+    "enhance_existing": true
+  },
+  
+  "capability_alignment": {
+    "principle": "新旧对比，择优替代，补齐短板，能力拉齐",
+    "method": "product_upgrade",
+    "steps": [
+      "对比agent能力与部门现有能力",
+      "评估强弱：agent强/部门强/相当",
+      "agent强 → 替代部门原有",
+      "部门强 → 保留部门，丢弃agent",
+      "agent独有 → 补齐到部门",
+      "结果：部门能力全面升级"
+    ],
+    "comparison_criteria": {
+      "strength": "功能完整度、性能、准确性",
+      "coverage": "场景覆盖度",
+      "maintainability": "维护成本",
+      "uniqueness": "独有性"
+    },
+    "actions": {
+      "agent_stronger": {
+        "action": "replace",
+        "description": "agent能力更强，替代部门原有"
+      },
+      "dept_stronger": {
+        "action": "discard",
+        "description": "部门能力更强，丢弃agent"
+      },
+      "agent_unique": {
+        "action": "complement",
+        "description": "agent独有，补齐到部门"
+      },
+      "comparable": {
+        "action": "merge_best",
+        "description": "各有优势，合并最优"
+      }
+    },
+    "reporting": {
+      "show_comparison": true,
+      "show_upgrade": true,
+      "template": {
+        "comparison": "【{capability}】对比：原部门 vs agent",
+        "result": "结果：{action}（{reason}）",
+        "upgrade": "✅ 部门能力升级：{before} → {after}"
+      }
+    }
+  }
+}
