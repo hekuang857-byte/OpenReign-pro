@@ -3,7 +3,7 @@
 ## 发布前检查
 
 ```bash
-cd /Users/kuang/Downloads/openreign-pro-v1.2.1
+cd "/Users/kuang/Documents/GitHub项目/openreign-pro-v1.2.1.backup"
 
 # 1. 检查文件
 git status
@@ -21,7 +21,7 @@ lsof -ti:18790 | xargs kill -9
 ### 第一步：初始化 Git
 
 ```bash
-cd /Users/kuang/Downloads/openreign-pro-v1.2.1
+cd "/Users/kuang/Documents/GitHub项目/openreign-pro-v1.2.1.backup"
 
 # 初始化
 git init
