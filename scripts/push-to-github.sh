@@ -6,7 +6,7 @@ set -e
 echo "🚀 OpenReign Pro GitHub 推送脚本"
 echo "================================"
 
-PROJECT_DIR="/Users/kuang/Documents/GitHub项目/openreign-pro-v1.2.1.backup"
+PROJECT_DIR="/Users/kuang/Documents/GitHub相关/GitHub项目/openreign-pro-v1.2.1.backup"
 cd "$PROJECT_DIR"
 
 # 检查 GitHub CLI 是否已认证
