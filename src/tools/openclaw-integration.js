@@ -83,7 +83,7 @@ async function handleMessage(message, next) {
  */
 module.exports = {
   name: 'openreign-pro',
-  version: '1.2.2',
+  version: '1.2.3',
   description: 'OpenReign Pro - 三省六部治理架构',
   
   // 生命周期钩子

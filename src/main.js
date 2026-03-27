@@ -44,12 +44,12 @@ module.exports = {
         permissionMatrix: require('./utils/permission-matrix')
     },
     
-    version: '1.2.2'
+    version: '1.2.3'
 };
 
 // 如果直接运行此文件，启动服务器
 if (require.main === module) {
-    console.log('🚀 OpenReign Pro v1.2.2');
+    console.log('🚀 OpenReign Pro v1.2.3');
     console.log('使用 npm run start:server 启动服务器');
     console.log('使用 npm run start:dashboard 启动前端');
 }
